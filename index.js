@@ -63,15 +63,32 @@ const createProject = (projectName) => {
         }
     });
 
+    // Create package.json file
     const packageJsonContent = templatePackageJson(projectName);
     const packageJsonPath = path.join(projectPath, 'package.json');
 
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonContent, null, 2));
 
+
+    // Copy the template folder to the project folder
     const templateFolderPath = path.join(__dirname, 'templates/folders-template');
     const destinationFolderPath = path.join(projectPath);
 
     copyTemplateFolder(templateFolderPath, destinationFolderPath, projectName);
+
+    // Copy files to the project folder
+    const filesToCopy = [
+        '.gitignore',
+        '.env',
+        'server.js',
+        'app.js',
+    ];
+
+    filesToCopy.forEach((file) => {
+        const srcPath = path.join(__dirname, `templates/${file}`);
+        const destPath = path.join(projectPath, file);
+        fs.copyFileSync(srcPath, destPath);
+    });
 }
 
 // Get command-line arguments
