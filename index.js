@@ -5,9 +5,32 @@ const fs = require('fs');
 
 // path is a Node standard library package for working with file and directory paths
 const path = require('path');
-
+const ncp = require('ncp').ncp;
 const templatePackageJson = require('./templates/packagejson.js');
-const tamplateLayout = require('./templates/layoutview.js');
+
+const replaceAppNameInFile = (filePath, appName) => {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const updatedContent = content.replace(/{{APP_NAME}}/g, appName);
+    fs.writeFileSync(filePath, updatedContent);
+}
+
+const copyTemplateFolder = (src, dest, appName) => {
+    ncp(src, dest, (err) => {
+
+        if (err) {
+            console.error(err);
+            // process exti will exit the process with an exit code
+            // code 1 means that the process failed
+            process.exit(1);
+        }
+        console.log('template folder copied!');
+
+        // Replace the placeholder with the actual app name in the db.js file
+        // dest is the destination folder
+        const dbPath = path.join(dest, 'db/index.js');
+        replaceAppNameInFile(dbPath, appName);
+    });
+};
 
 // create a project folder
 const createProject = (projectName) => {
@@ -45,11 +68,10 @@ const createProject = (projectName) => {
 
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonContent, null, 2));
 
+    const templateFolderPath = path.join(__dirname, 'templates/folders-template');
+    const destinationFolderPath = path.join(projectPath);
 
-    const layoutPath = path.join(projectPath, 'views', 'layout.hbs');
-    const layoutContent = tamplateLayout();
-
-    fs.writeFileSync(layoutPath, layoutContent);
+    copyTemplateFolder(templateFolderPath, destinationFolderPath, projectName);
 }
 
 // Get command-line arguments
