@@ -1,0 +1,22 @@
+{
+  "name": "lazylauncher",
+  "version": "1.0.0",
+  "description": "npm package to create a file structure for our hbs projects",
+  "main": "index.js",
+  "bin": {
+    "lazylauncher": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marshall-Bits/lazylauncher.git"
+  },
+  "author": "Marhsall-Bits",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marshall-Bits/lazylauncher/issues"
+  },
+  "homepage": "https://github.com/Marshall-Bits/lazylauncher#readme"
+}
