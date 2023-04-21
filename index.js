@@ -6,6 +6,9 @@ const fs = require('fs');
 // path is a Node standard library package for working with file and directory paths
 const path = require('path');
 
+// import the package.json file content
+const templatePackageJson = require('./templates/packagejson.js');
+
 // create a project folder
 const createProject = (projectName) => {
 
@@ -37,6 +40,10 @@ const createProject = (projectName) => {
         }
     });
 
+    const packageJsonContent = templatePackageJson(projectName);
+    const packageJsonPath = path.join(projectPath, 'package.json');
+
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonContent, null, 2));
 }
 
 // Get command-line arguments
