@@ -12,8 +12,7 @@ logs/
 *.log
 
 # Ignore configuration files with sensitive information
-config.js
-*.env
+config.json
 
 # Ignore package lock files
 package-lock.json

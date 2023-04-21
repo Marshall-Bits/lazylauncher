@@ -1,0 +1,11 @@
+# .npmignore
+
+# Ignore everything
+*
+
+# Except the following files and folders
+!templates/**
+!index.js
+!package.json
+!README.md
+
