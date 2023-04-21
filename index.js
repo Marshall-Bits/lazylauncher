@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const ncp = require('ncp').ncp;
 const templatePackageJson = require('./templates/packagejson.js');
+const { exec } = require('child_process');
 
 const replaceAppNameInFile = (filePath, appName) => {
     const content = fs.readFileSync(filePath, 'utf8');
@@ -31,6 +32,22 @@ const copyTemplateFolder = (src, dest, appName) => {
         replaceAppNameInFile(dbPath, appName);
     });
 };
+
+const installDependencies = (projectPath) => {
+    console.log('Installing dependencies...');
+
+    exec('npm install', { cwd: projectPath }, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error installing dependencies: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`Error output: ${stderr}`);
+        }
+        console.log('Dependencies installed successfully');
+    });
+};
+
 
 // create a project folder
 const createProject = (projectName) => {
@@ -89,6 +106,8 @@ const createProject = (projectName) => {
         const destPath = path.join(projectPath, file);
         fs.copyFileSync(srcPath, destPath);
     });
+
+    installDependencies(projectPath);
 }
 
 // Get command-line arguments
