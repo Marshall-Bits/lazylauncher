@@ -8,6 +8,7 @@ const path = require('path');
 const ncp = require('ncp').ncp;
 const templatePackageJson = require('./templates/packagejson.js');
 const { exec } = require('child_process');
+const { red, yellow, green } = require('colorette');
 
 const replaceAppNameInFile = (filePath, appName) => {
     const content = fs.readFileSync(filePath, 'utf8');
@@ -24,17 +25,17 @@ const copyTemplateFolder = (src, dest, appName) => {
             // code 1 means that the process failed
             process.exit(1);
         }
-        console.log('template folder copied!');
 
         // Replace the placeholder with the actual app name in the db.js file
         // dest is the destination folder
         const dbPath = path.join(dest, 'db/index.js');
         replaceAppNameInFile(dbPath, appName);
+        console.log('Template folder copied, please be patient...');
     });
 };
 
-const installDependencies = (projectPath) => {
-    console.log('Installing dependencies...');
+const installDependencies = (projectPath, callback) => {
+    console.log(yellow('Installing dependencies...'));
 
     exec('npm install', { cwd: projectPath }, (error, stdout, stderr) => {
         if (error) {
@@ -44,7 +45,8 @@ const installDependencies = (projectPath) => {
         if (stderr) {
             console.error(`Error output: ${stderr}`);
         }
-        console.log('Dependencies installed successfully');
+        console.log('Dependencies installed');
+        if (callback) callback();
     });
 };
 
@@ -107,7 +109,10 @@ const createProject = (projectName) => {
         fs.copyFileSync(srcPath, destPath);
     });
 
-    installDependencies(projectPath);
+    installDependencies(projectPath, () => {
+        console.log(yellow('Project created successfully!'));
+        console.log('Type ' + green(`"cd ${projectName}"`) + ' to enter the project folder and ' + green('"npm run dev"') + ' to start the server.');
+    });
 }
 
 // Get command-line arguments
