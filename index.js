@@ -30,6 +30,9 @@ const copyTemplateFolder = (src, dest, appName) => {
         // dest is the destination folder
         const dbPath = path.join(dest, 'db/index.js');
         replaceAppNameInFile(dbPath, appName);
+
+        fs.renameSync(path.join(dest, '_gitignore'), path.join(dest, '.gitignore'));
+        fs.renameSync(path.join(dest, '_env'), path.join(dest, '.env'));
         console.log('Template folder copied, please be patient...');
     });
 };
