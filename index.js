@@ -6,8 +6,8 @@ const fs = require('fs');
 // path is a Node standard library package for working with file and directory paths
 const path = require('path');
 
-// import the package.json file content
 const templatePackageJson = require('./templates/packagejson.js');
+const tamplateLayout = require('./templates/layoutview.js');
 
 // create a project folder
 const createProject = (projectName) => {
@@ -44,6 +44,12 @@ const createProject = (projectName) => {
     const packageJsonPath = path.join(projectPath, 'package.json');
 
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonContent, null, 2));
+
+
+    const layoutPath = path.join(projectPath, 'views', 'layout.hbs');
+    const layoutContent = tamplateLayout();
+
+    fs.writeFileSync(layoutPath, layoutContent);
 }
 
 // Get command-line arguments
@@ -51,8 +57,8 @@ const args = process.argv.slice(2);
 
 // If there is at least one argument, pass it to createProjectFolder as the project name
 if (args.length > 0) {
-  createProject(args[0]);
+    createProject(args[0]);
 } else {
-  console.error("Error: Please provide a project name.");
+    console.error("Error: Please provide a project name.");
 }
 
