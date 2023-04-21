@@ -1,6 +1,6 @@
 {
   "name": "lazylauncher",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "npm package to create a file structure for our hbs projects",
   "main": "index.js",
   "bin": {

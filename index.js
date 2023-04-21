@@ -33,6 +33,7 @@ const copyTemplateFolder = (src, dest, appName) => {
 
         fs.renameSync(path.join(dest, '_gitignore'), path.join(dest, '.gitignore'));
         fs.renameSync(path.join(dest, '_env'), path.join(dest, '.env'));
+        
         console.log('Template folder copied, please be patient...');
     });
 };
@@ -100,8 +101,8 @@ const createProject = (projectName) => {
 
     // Copy files to the project folder
     const filesToCopy = [
-        '.gitignore',
-        '.env',
+        '_gitignore',
+        '_env',
         'server.js',
         'app.js',
     ];
